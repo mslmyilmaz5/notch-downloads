@@ -9,39 +9,39 @@ BINARY      := $(BUILD_DIR)/release/$(APP_NAME)
 build:
 	swift build -c release
 
-## .app paketini oluşturur ve ad-hoc imzalar
+## Builds the .app bundle and ad-hoc signs it.
 app: build
-	@echo "→ $(APP_DIR) oluşturuluyor"
+	@echo "→ Building $(APP_DIR)"
 	@rm -rf "$(APP_DIR)"
 	@mkdir -p "$(APP_DIR)/Contents/MacOS"
 	@cp "$(BINARY)" "$(APP_DIR)/Contents/MacOS/$(APP_NAME)"
 	@cp Resources/Info.plist "$(APP_DIR)/Contents/Info.plist"
 	@codesign --force --sign - "$(APP_DIR)" 2>/dev/null || true
-	@echo "✓ $(APP_DIR) hazır"
+	@echo "✓ $(APP_DIR) ready"
 
-## Eski süreci kapatıp uygulamayı yeniden başlatır
+## Quits any running copy and launches the app again.
 run: app
 	@killall $(APP_NAME) 2>/dev/null || true
 	@open "$(APP_DIR)"
 
-## Geliştirme sırasında: terminalden çalıştırır (TCC izni terminalin izinlerini miras alır,
-## her derlemede yeniden izin istemez)
+## Runs from the terminal during development so it inherits the terminal's
+## Downloads permission and does not ask again on every build.
 dev: build
 	@killall $(APP_NAME) 2>/dev/null || true
 	@"$(BINARY)"
 
-## /Applications altına kurar
+## Copies the app into /Applications.
 install: app
 	@cp -R "$(APP_DIR)" /Applications/
-	@echo "✓ /Applications/$(APP_NAME).app kuruldu"
+	@echo "✓ Installed /Applications/$(APP_NAME).app"
 
-## Dağıtım için ZIP paketi üretir (dist/NotchDownloads.zip)
+## Builds a zip for distribution (dist/NotchDownloads.zip).
 package: app
 	@rm -f "$(DIST_DIR)/$(APP_NAME).zip"
 	@ditto -c -k --sequesterRsrc --keepParent "$(APP_DIR)" "$(DIST_DIR)/$(APP_NAME).zip"
-	@echo "✓ $(DIST_DIR)/$(APP_NAME).zip hazır"
+	@echo "✓ $(DIST_DIR)/$(APP_NAME).zip ready"
 
-## Dağıtım için DMG üretir (dist/NotchDownloads.dmg, Applications kısayollu)
+## Builds a DMG for distribution (dist/NotchDownloads.dmg, with an Applications shortcut).
 dmg: app
 	@rm -rf "$(DIST_DIR)/dmg-staging" "$(DIST_DIR)/$(APP_NAME).dmg"
 	@mkdir -p "$(DIST_DIR)/dmg-staging"
@@ -49,12 +49,12 @@ dmg: app
 	@ln -s /Applications "$(DIST_DIR)/dmg-staging/Applications"
 	@hdiutil create -volname "$(APP_NAME)" -srcfolder "$(DIST_DIR)/dmg-staging" -ov -format UDZO "$(DIST_DIR)/$(APP_NAME).dmg" >/dev/null
 	@rm -rf "$(DIST_DIR)/dmg-staging"
-	@echo "✓ $(DIST_DIR)/$(APP_NAME).dmg hazır"
+	@echo "✓ $(DIST_DIR)/$(APP_NAME).dmg ready"
 
 uninstall:
 	@killall $(APP_NAME) 2>/dev/null || true
 	@rm -rf "/Applications/$(APP_NAME).app"
-	@echo "✓ Kaldırıldı"
+	@echo "✓ Removed"
 
 clean:
 	@rm -rf "$(BUILD_DIR)" "$(DIST_DIR)"

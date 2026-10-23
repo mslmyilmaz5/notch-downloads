@@ -1,6 +1,6 @@
 cask "notch-downloads" do
-  version "1.1.0"
-  sha256 "60e67192e2a3226203077256fe0e6b3341a0c95ed78ab2184784d7063fc8a750"
+  version "1.2.0"
+  sha256 "8f5af679c7b6949131e81f0b8c3482bff764254020552e89870ee8d33a24b1fa"
 
   url "https://github.com/mslmyilmaz5/mac-last-downloads/releases/download/v#{version}/NotchDownloads.dmg"
   name "Notch Downloads"
