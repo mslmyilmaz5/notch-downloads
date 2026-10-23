@@ -1,111 +1,112 @@
 # Notch Downloads
 
-MacBook'un çentiğinin (notch) altına yerleşen, **son 5 indirilen dosyayı** gösteren
-küçük bir macOS uygulaması.
+A small macOS app that hangs under the MacBook notch and shows your **last 5 downloads**.
 
 ![Notch Downloads demo](docs/demo.gif)
 
-▶️ [Demo videosunu izle (MP4, 22 sn)](https://github.com/mslmyilmaz5/mac-last-downloads/releases/download/v1.1.0/NotchDownloads-demo.mp4)
+## Install
 
-## İndir
+### Homebrew
 
-Hazır uygulama: **[Son sürümü indir](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest)**
+```sh
+brew tap mslmyilmaz5/mac-last-downloads https://github.com/mslmyilmaz5/mac-last-downloads
+brew install --cask notch-downloads
+```
 
-| Dosya | Link |
+Apple Silicon only (arm64), macOS 13 Ventura or later. The cask installs the latest GitHub release.
+
+On first launch, allow access to your Downloads folder. If you turn on **Show Screenshots Instantly**, macOS also asks for Desktop access.
+
+Uninstall:
+
+```sh
+brew uninstall --cask notch-downloads
+```
+
+### Direct download
+
+Prebuilt app: **[latest release](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest)**
+
+| File | Link |
 | --- | --- |
-| DMG (önerilen) | [NotchDownloads.dmg](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest/download/NotchDownloads.dmg) |
+| DMG | [NotchDownloads.dmg](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest/download/NotchDownloads.dmg) |
 | ZIP | [NotchDownloads.zip](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest/download/NotchDownloads.zip) |
 
-**Kurulum:** DMG/ZIP'i açın, uygulamayı `/Applications` klasörüne sürükleyin.
-İlk açılışta **sağ tık → Aç** deyin. "Bozuk olduğu için açılamıyor" uyarısı
-çıkarsa Terminal'e şunu yazın:
+Open the DMG or ZIP and drag the app to `/Applications`. The build is not notarized, so the first open is **right-click → Open**. If macOS says the app is damaged:
 
 ```sh
 xattr -cr /Applications/NotchDownloads.app
 ```
 
-(Uygulama Apple Developer ID ile imzalanmadığı için Gatekeeper uyarısı normaldir.)
-Ardından gelen İndirilenler klasörü iznini **İzin Ver** ile onaylayın.
+Then allow access to the Downloads folder.
 
-## Özellikler
+## Features
 
-- **Çentik altında ince bir "çene"**: Boştayken çentiğin doğal bir uzantısı gibi durur,
-  fareyi üzerine getirince hafifçe vurgulanır, tıklayınca genişler.
-- **Anlık bildirim**: Yeni bir dosya indiğinde çentiğin altında birkaç saniyelik
-  önizleme bandı belirir.
-- **Son 5 dosya**: İndirilme tarihine göre sıralı, gerçek dosya ikonlarıyla.
-- **Sürükle & bırak**: Satırı — ya da yeni dosya bildirimini, listeyi açmadan —
-  tutup Finder'a, terminale veya herhangi bir uygulamaya sürükleyebilirsiniz.
-- **Hızlı aksiyonlar**: Satırın üzerine gelince Show in Finder, Copy, Share,
-  Move to Trash düğmeleri belirir. Sağ tık menüsünde de tüm aksiyonlar vardır.
-- **Yarım indirmeleri gizler**: `.download`, `.crdownload`, `.part` gibi devam eden
-  indirmeler listede görünmez; dosya tamamlanınca belirir.
-- **Ekran görüntüleri**: macOS'un ekran görüntüsü klasörü (varsayılan Masaüstü) de izlenir;
-  yalnızca ekran görüntüsü/kaydı dosyaları listeye girer. Menüden **"Show Screenshots
-  Instantly"** açılırsa sistemin yüzen küçük resmi kapatılır ve görüntü çekildiği anda
-  çentikte belirir. (Masaüstü izni de istenir.)
-- **İngilizce arayüz**: Menü, panel ve izin metinleri İngilizce.
-- **Menü çubuğu ikonu**: Paneli açma, oturum açılışında başlatma, çıkış.
-- Çentiksiz ekranlarda (harici monitör) menü çubuğunun altına ortalanmış olarak çalışır.
+- **A thin chin under the notch.** Idle, it reads as part of the notch. Hover highlights it; click expands the list.
+- **A short preview** when a new file arrives.
+- **The last 5 files**, newest first, with their real icons.
+- **Drag and drop.** Drag a row — or the new-file preview, without opening the list — into Finder, Terminal, or any other app.
+- **Quick actions** on hover: Show in Finder, Copy, Share, Move to Trash. The same actions are in the right-click menu.
+- **Hides partial downloads.** `.download`, `.crdownload`, `.part`, and similar files stay out of the list until the download finishes.
+- **Screenshots.** The macOS screenshot folder (Desktop by default) is watched too, and only screenshot and screen-recording files are added. **Show Screenshots Instantly** turns off the system’s floating thumbnail so the capture shows up in the notch the moment you take it. Desktop access is requested for that.
+- **English interface.** Menus, the panel, and permission copy are in English.
+- **Menu bar icon** to open the panel, launch at login, or quit.
+- On displays without a notch (external monitors), the panel sits centered under the menu bar.
 
-## Gereksinimler
+## Requirements
 
-- macOS 13 Ventura veya üzeri
-- Apple Silicon (M1 ve sonrası) — hazır sürüm yalnızca `arm64` için derlenir
-- Swift toolchain (Xcode Command Line Tools yeterli): `xcode-select --install`
+- macOS 13 Ventura or later
+- Apple Silicon (M1 or later). The release build is `arm64` only
+- A Swift toolchain to build from source (Xcode Command Line Tools are enough): `xcode-select --install`
 
-## Çalıştırma
+## Run from source
 
 ```sh
 make run
 ```
 
-Bu komut uygulamayı derler, `dist/NotchDownloads.app` paketini oluşturur ve başlatır.
+That builds the app, writes `dist/NotchDownloads.app`, and launches it.
 
-İlk çalıştırmada macOS **"NotchDownloads, İndirilenler klasörünüzdeki dosyalara
-erişmek istiyor"** diye sorar — **İzin Ver** deyin. İzin reddedilirse panel içinden
-"Open System Settings" düğmesiyle izin verebilirsiniz.
+The first time, macOS asks to let Notch Downloads read your Downloads folder. Choose **Allow**. If access was denied, use **Open System Settings** inside the panel.
 
-### Geliştirme sırasında izin döngüsünden kaçınma
+### Skip the permission prompt while developing
 
-Uygulama ad-hoc imzalı olduğu için her yeniden derlemede macOS izni sıfırlayabilir.
-Geliştirme yaparken bunun yerine:
+The app is ad-hoc signed, so macOS can forget the folder grant on every rebuild. While developing, run it from the terminal instead:
 
 ```sh
 make dev
 ```
 
-ile terminalden çalıştırın — uygulama, terminalinizin (Terminal/iTerm) zaten sahip
-olduğu İndirilenler iznini miras alır ve her derlemede yeniden sormaz.
+It inherits the Downloads permission your terminal (Terminal or iTerm) already has, and does not ask again on each build.
 
-## Kurulum
+## Install from source
 
 ```sh
-make install   # /Applications altına kopyalar
+make install   # copies the app to /Applications
 ```
 
-Ardından menü çubuğu ikonundan **"Launch at Login"** seçeneğini açın.
+Then turn on **Launch at Login** from the menu bar icon.
 
-## Kaldırma
+## Uninstall a source install
 
 ```sh
 make uninstall
 ```
 
-## Mimari
+## Layout
 
-| Dosya | Görev |
+| File | Role |
 | --- | --- |
-| `DownloadsMonitor.swift` | `~/Downloads` klasörünü `DispatchSource` (vnode) ile izler, son 5 dosyayı çıkarır |
-| `ScreenshotSettings.swift` | Ekran görüntüsü klasörü ve `show-thumbnail` ayarı (`com.apple.screencapture`) |
-| `NotchGeometry.swift` | Çentiğin ekran koordinatlarını hesaplar (`auxiliaryTopLeftArea` / `safeAreaInsets`) |
-| `NotchViewModel.swift` | UI durumu (çene / bildirim / liste) + dosya aksiyonları |
-| `NotchPanelController.swift` | Odak çalmayan `NSPanel`'i çentiğin altına konumlandırır, animasyonları yönetir |
-| `Views/` | SwiftUI görünümleri (liste, satır, bildirim bandı) |
-| `AppDelegate.swift` | Menü çubuğu ikonu, oturumda başlat (SMAppService) |
+| `DownloadsMonitor.swift` | Watches `~/Downloads` with a `DispatchSource` (vnode) and keeps the last 5 files |
+| `ScreenshotSettings.swift` | Screenshot folder and the `show-thumbnail` setting (`com.apple.screencapture`) |
+| `NotchGeometry.swift` | Notch frame in screen coordinates (`auxiliaryTopLeftArea` / `safeAreaInsets`) |
+| `NotchViewModel.swift` | UI state (chin / preview / list) and file actions |
+| `NotchPanelController.swift` | Non-activating `NSPanel` parked under the notch, plus the animations |
+| `Views/` | SwiftUI views (list, row, preview) |
+| `AppDelegate.swift` | Menu bar icon and launch at login (`SMAppService`) |
 
-Klasör erişimi sandbox'sız çalışır; TCC ("İndirilenler" izni) ilk açılışta sorulur.
+Folder access is not sandboxed. TCC asks for Downloads (and Desktop, if screenshots are enabled) on first launch.
 
-## Lisans
+## License
 
 [MIT](LICENSE)
