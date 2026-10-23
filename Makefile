@@ -13,9 +13,10 @@ build:
 app: build
 	@echo "→ Building $(APP_DIR)"
 	@rm -rf "$(APP_DIR)"
-	@mkdir -p "$(APP_DIR)/Contents/MacOS"
+	@mkdir -p "$(APP_DIR)/Contents/MacOS" "$(APP_DIR)/Contents/Resources"
 	@cp "$(BINARY)" "$(APP_DIR)/Contents/MacOS/$(APP_NAME)"
 	@cp Resources/Info.plist "$(APP_DIR)/Contents/Info.plist"
+	@cp Resources/AppIcon.icns "$(APP_DIR)/Contents/Resources/AppIcon.icns"
 	@codesign --force --sign - "$(APP_DIR)" 2>/dev/null || true
 	@echo "✓ $(APP_DIR) ready"
 

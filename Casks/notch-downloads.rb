@@ -1,11 +1,11 @@
 cask "notch-downloads" do
-  version "1.2.0"
-  sha256 "9ec3955ab6c1079819c354df3a16bdaca21fa3ae34b1ca34d0796b4139c39df3"
+  version "1.2.1"
+  sha256 "d8a2e0c53e2715679ed2178789ce3ca88719be27563909cd6f5c708905def2bf"
 
-  url "https://github.com/mslmyilmaz5/mac-last-downloads/releases/download/v#{version}/NotchDownloads.dmg"
+  url "https://github.com/mslmyilmaz5/notch-downloads/releases/download/v#{version}/NotchDownloads.dmg"
   name "Notch Downloads"
   desc "Show recent downloads under the MacBook notch"
-  homepage "https://github.com/mslmyilmaz5/mac-last-downloads"
+  homepage "https://github.com/mslmyilmaz5/notch-downloads"
 
   livecheck do
     url :homepage

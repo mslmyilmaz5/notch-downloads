@@ -9,16 +9,16 @@ A small macOS app that hangs under the MacBook notch and shows your **last 5 dow
 ### Homebrew
 
 ```sh
-brew tap mslmyilmaz5/mac-last-downloads https://github.com/mslmyilmaz5/mac-last-downloads
-brew trust mslmyilmaz5/mac-last-downloads
+brew tap mslmyilmaz5/notch-downloads https://github.com/mslmyilmaz5/notch-downloads
+brew trust mslmyilmaz5/notch-downloads
 brew install --cask notch-downloads
 ```
 
 Homebrew will not load a cask from a third-party tap until that tap is trusted.
 
-Apple Silicon only (arm64), macOS 13 Ventura or later. The cask installs the latest GitHub release.
+Apple Silicon only (arm64), macOS 13 Ventura or later. The cask is pinned to the current release (v1.2.1) and its SHA-256. A new GitHub release does not reach Homebrew until `version` and `sha256` in [`Casks/notch-downloads.rb`](Casks/notch-downloads.rb) are updated. After install, the cask clears the download quarantine flag (`xattr -cr`) so Gatekeeper does not report the unsigned app as damaged.
 
-On first launch, allow access to your Downloads folder. If you turn on **Show Screenshots Instantly**, macOS also asks for Desktop access.
+On first launch, macOS asks for access to your Downloads folder and to your screenshot folder (Desktop by default). That folder is watched from the start, not only when **Show Screenshots Instantly** is on.
 
 Uninstall:
 
@@ -28,20 +28,27 @@ brew uninstall --cask notch-downloads
 
 ### Direct download
 
-Prebuilt app: **[latest release](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest)**
+Prebuilt app: **[latest release](https://github.com/mslmyilmaz5/notch-downloads/releases/latest)**
 
 | File | Link |
 | --- | --- |
-| DMG | [NotchDownloads.dmg](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest/download/NotchDownloads.dmg) |
-| ZIP | [NotchDownloads.zip](https://github.com/mslmyilmaz5/mac-last-downloads/releases/latest/download/NotchDownloads.zip) |
+| DMG | [NotchDownloads.dmg](https://github.com/mslmyilmaz5/notch-downloads/releases/latest/download/NotchDownloads.dmg) |
+| ZIP | [NotchDownloads.zip](https://github.com/mslmyilmaz5/notch-downloads/releases/latest/download/NotchDownloads.zip) |
 
-Open the DMG or ZIP and drag the app to `/Applications`. The build is not notarized, so the first open is **right-click → Open**. If macOS says the app is damaged:
+Open the DMG or ZIP and drag the app to `/Applications`. The build is not notarized.
+
+- On macOS 13 and 14, **right-click → Open** once is usually enough.
+- On macOS 15 Sequoia and later, open the app once, then go to **System Settings → Privacy & Security** and click **Open Anyway**.
+
+If macOS says the app is damaged:
 
 ```sh
 xattr -cr /Applications/NotchDownloads.app
 ```
 
-Then allow access to the Downloads folder.
+Then allow access to your Downloads folder and your screenshot folder. The Homebrew install above clears that quarantine flag for you.
+
+[Demo video (MP4)](docs/demo.mp4)
 
 ## Features
 
@@ -51,9 +58,9 @@ Then allow access to the Downloads folder.
 - **Drag and drop.** Drag a row — or the new-file preview, without opening the list — into Finder, Terminal, or any other app.
 - **Quick actions** on hover: Show in Finder, Copy, Share, Move to Trash. The same actions are in the right-click menu.
 - **Hides partial downloads.** `.download`, `.crdownload`, `.part`, and similar files stay out of the list until the download finishes.
-- **Screenshots.** The macOS screenshot folder (Desktop by default) is watched too, and only screenshot and screen-recording files are added. **Show Screenshots Instantly** turns off the system’s floating thumbnail so the capture shows up in the notch the moment you take it. Desktop access is requested for that.
+- **Screenshots.** The macOS screenshot folder (Desktop by default) is watched from the start, and only screenshot and screen-recording files from that folder are added. **Show Screenshots Instantly** only turns off the system’s floating thumbnail, so a new capture shows up in the notch the moment you take it.
 - **English interface.** Menus, the panel, and permission copy are in English.
-- **Menu bar icon** to open the panel, launch at login, or quit.
+- **Menu bar icon** to show downloads, turn on instant screenshots, launch at login, open the Downloads folder, or quit. Click a row to open the file. The right-click menu also has Open.
 - On displays without a notch (external monitors), the panel sits centered under the menu bar.
 
 ## Requirements
@@ -108,7 +115,7 @@ make uninstall
 | `Views/` | SwiftUI views (list, row, preview) |
 | `AppDelegate.swift` | Menu bar icon and launch at login (`SMAppService`) |
 
-Folder access is not sandboxed. TCC asks for Downloads (and Desktop, if screenshots are enabled) on first launch.
+Folder access is not sandboxed. On first launch, macOS asks for Downloads and for the screenshot folder (Desktop by default).
 
 ## License
 
