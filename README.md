@@ -10,8 +10,11 @@ A small macOS app that hangs under the MacBook notch and shows your **last 5 dow
 
 ```sh
 brew tap mslmyilmaz5/mac-last-downloads https://github.com/mslmyilmaz5/mac-last-downloads
+brew trust mslmyilmaz5/mac-last-downloads
 brew install --cask notch-downloads
 ```
+
+Homebrew will not load a cask from a third-party tap until that tap is trusted.
 
 Apple Silicon only (arm64), macOS 13 Ventura or later. The cask installs the latest GitHub release.
 
