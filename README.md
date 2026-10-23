@@ -1,4 +1,8 @@
-# Notch Downloads
+# <img src="docs/icon.png" width="48" alt="" valign="middle"> Notch Downloads
+
+[![GitHub stars](https://img.shields.io/github/stars/mslmyilmaz5/notch-downloads?style=flat&logo=github)](https://github.com/mslmyilmaz5/notch-downloads/stargazers)
+[![Latest release](https://img.shields.io/github/v/release/mslmyilmaz5/notch-downloads?style=flat)](https://github.com/mslmyilmaz5/notch-downloads/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/mslmyilmaz5/notch-downloads?style=flat)](LICENSE)
 
 A small macOS app that hangs under the MacBook notch and shows your **last 5 downloads**.
 
